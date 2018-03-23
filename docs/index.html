@@ -9,53 +9,64 @@
     <title>Cadastro de Usuários</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css\main.css">
+
+    <!-- FIREBASE -->
+    <!-- <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script> -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    
+
+    <!-- Biblioteca -->
     <script type="text/javascript" src="lib\filesaver.min.js"></script>
     <script type="text/javascript" src="js\main.js"></script>
+    <script src="lib\angularjs-1.6.4.min.js"></script>
+    <script src="js/app.js"></script>
 
-    <style>
-        .usuario-conteudo {
-            background-color: #EEE;
-            padding: 20px 20px 10px 20px;
-            margin-top: 30px;
-        }
-    </style>
 </head>
 
 <body>
-
-    <div class="container">
+        <textarea id="text" rows="10"></textarea>
+    <div class="container ">
+        <!-- FEEDS -->
+        <div id="feedSuccess" class="alert alert-success" style="display:none">
+            <strong>Tarefa adicionada!</strong>
+        </div>
+        <div id="feedError" class="alert alert-danger" style="display:none">
+            <strong>Erro ao adicionar!</strong>
+        </div>
+        <!-- INICIO DO CONTAINER COM O CRUD -->
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
-                <div class="usuario-conteudo" ng-controller="UsuarioController">
-                    <h1>Cadastro de Usuários</h1>
+                <div class="jumbotron cor-painel-principal" ng-controller="tarefaController">
+                    <h1>Adicionar Tarefa</h1>
                     <form name="formulario" ng-submit="cadastrar()">
                         <div class="form-group">
-                            <label for="nome">Nome*</label>
-                            <input type="text" class="form-control" id="nome" placeholder="Nome do usuário" maxlength="20" required ng-model="usuario.nome">
+                            <label for="tarefa">Tarefa*</label>
+                            <input type="text" class="form-control" id="tarefa" placeholder="Nome da tarefa" maxlength="20" required ng-model="tarefa.tarefa">
                         </div>
-                        <div class="form-group has-feedback {{statusSenha.classe}}">
-                            <label for="senha">Senha*</label>
-                            <input type="password" class="form-control" id="senha" placeholder="Informe a senha do usuário" maxlength="10" required ng-model="usuario.senha"
-                                ng-change="validarSenha()">
-                            <span class="glyphicon form-control-feedback {{statusSenha.icone}}" aria-hidden="true"></span>
-                            <p class="help-block">{{statusSenha.mensagem}}</p>
+                        <div class="form-group has-feedback {{statusdescricao.classe}}">
+                            <label for="descricao">Descricao*</label>
+                            <input type="password" class="form-control" id="descricao" placeholder="Informe a descrição da tarefa" maxlength="10" required
+                                ng-model="tarefa.descricao">
+                            <span class="glyphicon form-control-feedback {{statusdescricao.icone}}" aria-hidden="true"></span>
+                            <p class="help-block">{{statusdescricao.mensagem}}</p>
                         </div>
-                        <button type="submit" class="btn btn-primary" onclick="salvar()">Cadastrar</button>
+                        <button type="submit" class="btn btn-primary" onclick="salvar()">Adicionar</button>
                     </form>
                     <hr>
-                    <h1>Lista de Usuários</h1>
-                    <table class="table table-striped">
+                    <h1>Lista de Tarefas</h1>
+                    <table class="table">
                         <thead>
                             <tr>
-                                <th>Nome</th>
-                                <th>Senha</th>
+                                <th>Tarefa</th>
+                                <th>Descrição</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Aqui serão exibidos os dados do usuários cadastrados -->
-                            <tr ng-repeat="usuario in usuarios">
-                                <td>{{usuario.nome}}</td>
-                                <td>{{usuario.senha}}</td>
+                            <tr ng-repeat="tarefa in tarefas">
+                                <td>{{tarefa.tarefa}}</td>
+                                <td>{{tarefa.descricao}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -64,12 +75,9 @@
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script src="js/app.js"></script>
-
-
+    <script src="lib\jquery-1.12.4.min.js"></script>
+    <script src="lib\bootstrap-3.3.7.min.js"></script>
+    
 </body>
 
 </html>
