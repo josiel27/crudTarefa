@@ -35,6 +35,10 @@
                             <label for="tarefa">Tarefa*</label>
                             <input type="text" class="form-control" id="tarefa" placeholder="Nome da tarefa" maxlength="20" required ng-model="tarefa.tarefa">
                         </div>
+                        <div class="form-group">
+                            <label for="tarefa">Data de entrega*</label>
+                            <input type="date" class="form-control" id="data" placeholder="Data de entrega da tarefa" maxlength="20" required ng-model="tarefa.data">
+                        </div>
                         <div class="form-group has-feedback {{statusdescricao.classe}}">
                             <label for="descricao">Descricao*</label>
                             <textarea type="textarea" class="form-control textarea" id="descricao" placeholder="Informe a descrição da tarefa" maxlength="400"
@@ -54,6 +58,7 @@
                             <tr>
                                 <th>Tarefa</th>
                                 <th>Descrição</th>
+                                <th >Data de entrega</th>
                                 <th class="table-tarefas">Ações</th>
                             </tr>
                         </thead>
@@ -62,11 +67,12 @@
                             <tr ng-repeat="tarefa in tarefas" id={{tarefa.tarefa}}>
                                 <td>{{tarefa.tarefa}}</td>
                                 <td>{{tarefa.descricao}}</td>
+                                <td class="dataEntrega">{{tarefa.data}}</td>
                                 <td class="actions">
-                                    <a class="btn btn-success btn-xs padding-btn">
+                                    <!-- <a class="btn btn-success btn-xs padding-btn">
                                         <i class="fas fa-search"></i>
-                                    </a>
-                                    <a id="edit{{tarefa.tarefa}}" class="btn btn-warning btn-xs padding-btn" ng-click="alterar(tarefa.tarefa, tarefa.descricao)">
+                                    </a> -->
+                                    <a id="edit{{tarefa.tarefa}}" class="btn btn-warning btn-xs padding-btn" ng-click="alterar(tarefa.tarefa, tarefa.descricao, tarefa.data)">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <a id="del{{tarefa.tarefa}}" class="btn btn-danger btn-xs padding-btn" ng-click="deletar(tarefa.tarefa)" data-toggle="modal"
@@ -81,6 +87,7 @@
             </div>
         </div>
     </div>
+    
     <!-- FEEDS -->
     <div id="feedSuccess" class="alert alert-success alertClass" style="display:none"></div>
     <div id="feedError" class="alert alert-danger alertClass" style="display:none"></div>

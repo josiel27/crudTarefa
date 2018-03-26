@@ -17,11 +17,13 @@ let feedError = $("#feedError");
 function salvar() {
     let tarefa = document.getElementById("tarefa").value;
     let descricao = document.getElementById("descricao").value;
+    var data = document.getElementById("data").value;
 
-    if (tarefa != "" && descricao != "") {
+    if (tarefa != "" && descricao != "" && data != "") {
         let texto = {//JSON
             "Tarefa": tarefa,
-            "Descricao": descricao
+            "Descricao": descricao,
+            "Data": data
         };
         try {
             var content = {};
@@ -40,7 +42,8 @@ function salvar() {
 function remover(nomeTarefa) {
     let texto = {//JSON
         "Tarefa": tarefa,
-        "Descricao": descricao
+        "Descricao": descricao,
+        "Data": data
     };
     try {
         var content = {};
@@ -58,11 +61,13 @@ function update(nomeAlterado) {
     console.log(nomeAlterado)
     let tarefa = document.getElementById("tarefa").value;
     let descricao = document.getElementById("descricao").value;
+    let data = document.getElementById("data").value;
 
     if (tarefa != "" && descricao != "") {
         let texto = {//JSON
             "Tarefa": tarefa,
-            "Descricao": descricao
+            "Descricao": descricao,
+            "Data": data
         };
         try {
             var content = {};
@@ -80,7 +85,6 @@ function update(nomeAlterado) {
 
 //Funcao para mostras os feeds de status da inserção no BD
 function mostraFeed(tipo_alert, msg_show) {
-    console.log('tipo_alert')
     var novaMsg = document.createElement('strong');
     novaMsg.textContent = msg_show;
 
@@ -110,7 +114,7 @@ function mostrarCrudTarefa() {
     $('#crudForm').show(300);
 }
 
-function esconderCrudTarefa(){
+function esconderCrudTarefa() {
     $('#crudForm').hide(300);
     $('#btnNovaTarefa').show();
 }

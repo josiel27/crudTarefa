@@ -20,7 +20,11 @@ body {
 .actions{
     width: 20%;
     min-width: 100px;
-    /* position: absolute; */
+}
+
+.dataEntrega{
+    width: 25%;
+    min-width: 100px;
 }
 
 .textarea{
