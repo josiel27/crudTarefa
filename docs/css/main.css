@@ -38,5 +38,10 @@ body {
     height: 12%;
     position: fixed;
     margin: 20px;
+    margin-right: 20px;
     text-align: center;
+}
+
+center{
+    color: white;
 }

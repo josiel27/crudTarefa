@@ -35,7 +35,6 @@ function salvar() {
             mostraFeed('error', 'Erro ao adicionar tarefa!');
         }
     }
-
 }
 
 //funcao que faz a exclusao no Banco do FIREBASE
@@ -58,11 +57,10 @@ function remover(nomeTarefa) {
 
 //funcao que faz a alteracao no Banco do FIREBASE
 function update(nomeAlterado) {
-    console.log(nomeAlterado)
     let tarefa = document.getElementById("tarefa").value;
     let descricao = document.getElementById("descricao").value;
     let data = document.getElementById("data").value;
-
+    
     if (tarefa != "" && descricao != "") {
         let texto = {//JSON
             "Tarefa": tarefa,
