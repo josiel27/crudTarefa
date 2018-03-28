@@ -12,6 +12,7 @@ firebase.initializeApp(config);
 
 let feedSuccess = $("#feedSuccess");
 let feedError = $("#feedError");
+let feedAlert = $("#feedAlert");
 
 //funcao que faz a inserção no Banco do FIREBASE
 function salvar() {
@@ -57,11 +58,11 @@ function remover(nomeTarefa) {
 
 //funcao que faz a alteracao no Banco do FIREBASE
 function update(nomeAlterado) {
-    let tarefa = document.getElementById("tarefa").value;
-    let descricao = document.getElementById("descricao").value;
-    let data = document.getElementById("data").value;
-    
-    if (tarefa != "" && descricao != "") {
+    var tarefa = $('#tarefa').val();
+    var descricao = $('#descricao').val();
+    var data = $('#data').val();
+
+    if (tarefa != "" && descricao != "" && data != "") {
         let texto = {//JSON
             "Tarefa": tarefa,
             "Descricao": descricao,
@@ -80,6 +81,17 @@ function update(nomeAlterado) {
     }
 }
 
+// indo para o top
+function goToTop() {
+    $('html, body, ion-content').animate({ scrollTop: 0 }, 'slow');
+};
+
+//setar o focus no input tarefas
+function setFocusTarefa() {
+    setTimeout(function () {
+        $("#tarefa").focus();
+    }, 500)
+};
 
 //Funcao para mostras os feeds de status da inserção no BD
 function mostraFeed(tipo_alert, msg_show) {
@@ -88,8 +100,10 @@ function mostraFeed(tipo_alert, msg_show) {
 
     var msgSuccess = $(document).find('#msgSuccess');
     var msgError = $(document).find('#msgError');
+    var msgAlert = $(document).find('#msgAlert');
     if (msgSuccess) { msgSuccess.remove(); };
     if (msgError) { msgError.remove(); };
+    if (msgAlert) { msgAlert.remove(); };
 
     switch (tipo_alert) {
         case 'success':
@@ -104,10 +118,17 @@ function mostraFeed(tipo_alert, msg_show) {
             feedError.show(300);
             setTimeout(function () { feedError.hide(1000); }, 2000);
             break
+        case 'alert':
+            novaMsg.id = 'msgAlert';
+            feedAlert.append(novaMsg);
+            feedAlert.show(300);
+            setTimeout(function () { feedAlert.hide(1000); }, 2000);
+            break
     }
 }
 
 function mostrarCrudTarefa() {
+    setFocusTarefa();
     $('#btnNovaTarefa').hide();
     $('#crudForm').show(300);
 }

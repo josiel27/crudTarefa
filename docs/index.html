@@ -1,104 +1,179 @@
 <!DOCTYPE html>
-<html ng-app="cadastro" ng-controller="tarefaController">
+<html ng-app="starter" ng-controller="tarefaController">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tarefas</title>
-    <link rel="icon" href="img/favicon.png" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css\main.css">
+  <title>Tarefas</title>
+  <link rel="icon" href="img/favicon.png" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css\main.css">
 
-    <!-- FIREBASE -->
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 
-    <!-- Biblioteca -->
-    <script src="lib\jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="lib\filesaver.min.js"></script>
-    <script src="lib\angularjs-1.6.4.min.js"></script>
-    <script src="lib\fontawesome.min.js"></script>
-    <script src="js/app.js"></script>
 
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <!-- Biblioteca -->
+  <script src="lib/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="lib\filesaver.min.js"></script>
+  <!-- <script src="lib/angularjs-1.6.4.min.js"></script> -->
+  <script src="lib/fontawesome.min.js"></script>
+
+  <link rel="manifest" href="manifest.json">
+
+  <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
 </head>
 
 <body>
-    <div class="container padding-container">
-        <!-- INICIO DO CONTAINER COM O CRUD -->
-        <div class="row">
-            <div class="col-md-offset-2 col-md-8">
-                <div class="jumbotron cor-painel-principal">
-                    <h1>Adicionar Tarefa</h1>
-                    <button id="btnNovaTarefa" onclick="mostrarCrudTarefa()" type="button" class="btn btn-primary">Nova tarefa</button>
-                    <form id="crudForm" name="formulario" style="display:none">
-                        <div class="form-group">
-                            <label for="tarefa">Tarefa*</label>
-                            <input type="text" class="form-control" id="tarefa" placeholder="Nome da tarefa" maxlength="20" required ng-model="tarefa.tarefa">
-                        </div>
-                        <div class="form-group">
-                            <label for="tarefa">Data de entrega*</label>
-                            <input type="date" class="form-control" id="data" placeholder="Data de entrega da tarefa" maxlength="20" required ng-model="tarefa.data">
-                        </div>
-                        <div class="form-group has-feedback {{statusdescricao.classe}}">
-                            <label for="descricao">Descricao*</label>
-                            <textarea type="textarea" class="form-control textarea" id="descricao" placeholder="Informe a descrição da tarefa" maxlength="400"
-                                required ng-model="tarefa.descricao"></textarea>
-
-                            <span class="glyphicon form-control-feedback {{statusdescricao.icone}}" aria-hidden="true"></span>
-                            <p class="help-block">{{statusdescricao.mensagem}}</p>
-                        </div>
-                        <button id="btnAdicionar" ng-click="cadastrar()" type="submit" class="btn btn-primary">Adicionar</button>
-                        <button id="btnSalvar" ng-click="salvarAlteracao()" type="submit" class="btn btn-success" disabled>Salvar</button>
-                        <button id="btnCancel" ng-click="cancelAlteracao()" type="button" class="btn btn-danger ">Cancel</button>
-                    </form>
-                    <hr>
-                    <h1>Lista de Tarefas</h1>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Tarefa</th>
-                                <th>Descrição</th>
-                                <th >Data de entrega</th>
-                                <th class="table-tarefas">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Aqui serão exibidos os dados do usuários cadastrados -->
-                            <tr ng-repeat="tarefa in tarefas" id={{tarefa.tarefa}}>
-                                <td>{{tarefa.tarefa}}</td>
-                                <td>{{tarefa.descricao}}</td>
-                                <td class="dataEntrega">{{tarefa.data}}</td>
-                                <td class="actions">
-                                    <!-- <a class="btn btn-success btn-xs padding-btn">
-                                        <i class="fas fa-search"></i>
-                                    </a> -->
-                                    <a id="edit{{tarefa.tarefa}}" class="btn btn-warning btn-xs padding-btn" ng-click="alterar(tarefa.tarefa, tarefa.descricao, tarefa.data)">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a id="del{{tarefa.tarefa}}" class="btn btn-danger btn-xs padding-btn" ng-click="deletar(tarefa.tarefa)" data-toggle="modal"
-                                        data-target="#delete-modal">
-                                        <i class="far fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <ion-content>
+    <center id="divCarregando" class="styleLoading">
+        <div class="sk-circle">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+          </div>
+      <br>
+      <br>
+      <strong>Carregando..</strong>
+    </center>
+    <div id="containerTabela" class="container padding-container" style="display:none">
+      <!-- INICIO DO CONTAINER COM O CRUD -->
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <div class="jumbotron cor-painel-principal">
+            <h1>Adicionar Tarefa</h1>
+            <button id="btnNovaTarefa" onclick="mostrarCrudTarefa()" type="button" class="btn btn-primary">
+              <strong>Nova tarefa</strong>
+            </button>
+            <form id="crudForm" name="formulario" style="display:none">
+              <div class="form-group">
+                <label for="tarefa">Tarefa*</label>
+                <input type="text" class="form-control" id="tarefa" placeholder="Nome da tarefa" maxlength="20" required ng-model="tarefa.tarefa">
+              </div>
+              <div class="form-group">
+                <label for="tarefa">Data de entrega*</label>
+                <input type="date" class="form-control" id="data" placeholder="Data de entrega da tarefa" maxlength="20" required ng-model="tarefa.data">
+              </div>
+              <div class="form-group has-feedback {{statusdescricao.classe}}">
+                <label for="descricao">Descricao*</label>
+                <textarea type="textarea" class="form-control textarea" id="descricao" placeholder="Informe a descrição da tarefa" maxlength="80"
+                  required ng-model="tarefa.descricao"></textarea>
+                <span class="glyphicon form-control-feedback {{statusdescricao.icone}}" aria-hidden="true"></span>
+                <p class="help-block">{{statusdescricao.mensagem}}</p>
+              </div>
+              <button id="btnAdicionar" ng-click="cadastrar()" type="button" class="btn btn-primary">
+                <strong>Adicionar</strong>
+              </button>
+              <button id="btnSalvar" ng-click="salvarAlteracao()" type="button" class="btn btn-success" disabled>
+                <strong>Salvar</strong>
+              </button>
+              <button id="btnCancel" ng-click="cancelAlteracao()" type="button" class="btn btn-danger ">
+                <strong>Cancel</strong>
+              </button>
+            </form>
+            <hr>
+            <h1>Lista de Tarefas</h1>
+            <table class="table styleTable">
+              <thead>
+                <tr>
+                  <th class="sizeTarefa">
+                    <strong>Tarefa</strong>
+                  </th>
+                  <th>
+                    <strong>Entrega</strong>
+                  </th>
+                  <th class="table-tarefas">
+                    <strong>Ações</strong>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Aqui serão exibidos os dados do usuários cadastrados -->
+                <tr ng-repeat="tarefa in tarefas" id={{tarefa.tarefa}}>
+                  <td class="actions">
+                    <strong>{{tarefa.tarefa}} </strong>
+                    <br>
+                    <div class="sizeDesc">{{tarefa.descricao}}</div>
+                    <br>
+                    <br>
+                  </td>
+                  <td class="sizeEntrega">{{tarefa.data}}</td>
+                  <td class="actions">
+                    <!-- <a class="btn btn-success btn-xs padding-btn">
+                      <i class="fas fa-search"></i>
+                    </a> -->
+                    <a id="edit{{tarefa.tarefa}}" class="btn btn-warning btn-xs padding-btn" ng-click="alterar(tarefa.tarefa, tarefa.descricao, tarefa.data)">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    <a id="del{{tarefa.tarefa}}" class="btn btn-danger btn-xs padding-btn" ng-click="deletar(tarefa.tarefa)" data-toggle="modal"
+                      data-target="#delete-modal">
+                      <i class="far fa-trash-alt"></i>
+                    </a>
+                  </td>
+                  <br>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Botao para ir ao topo -->
+            <a class="btn btn-info btnGoToTop" onclick="goToTop()">
+              <i class="fa fa-chevron-up"></i>
+            </a>
+          </div>
         </div>
-        <center>Josiel Faria</center>
+      </div>
+      <center>Josiel Faria</center>
     </div>
-    
+
     <!-- FEEDS -->
-    <div id="feedSuccess" class="alert alert-success alertClass" style="display:none"></div>
-    <div id="feedError" class="alert alert-danger alertClass" style="display:none"></div>
+  </ion-content>
+  <div id="feedSuccess" class="alert alert-success alertClass" style="display:none"></div>
+  <div id="feedError" class="alert alert-danger alertClass" style="display:none"></div>
+  <div id="feedAlert" class="alert alert-warning alertClass" style="display:none"></div>
+  <script type="text/javascript" src="js/main.js"></script>
 
-    
-    <script src="lib\jquery-1.12.4.min.js"></script>
-    <script src="lib\bootstrap-3.3.7.min.js"></script>
-    <script type="text/javascript" src="js\main.js"></script>
-
+  <!-- 
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Ionic Blank Starter</h1>
+      </ion-header-bar>
+      <ion-content>
+      </ion-content>
+    </ion-pane>
+   -->
 </body>
 
 </html>
